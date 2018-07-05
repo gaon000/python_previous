@@ -1,0 +1,361 @@
+# class S:
+#     def __init__(self):
+#         self.score=0
+#     def plus(self,score):
+#         self.score=self.score+score
+#         return self.score
+#     def minus(self,min):
+#          self.score=self.score-min
+#          return self.score
+#     def look(self):
+#          return self.score
+#     def warn(self):
+#          if self.score >=10:
+#              return "벌점이 10점이상입니다. 조심하세요"
+#          else:
+#              return "safe"
+# a=S()
+# print(a.plus(3))
+# print(a.minus(3))
+# print(a.look())
+# print(a.plus(10))
+# print(str(a.minus(1))+"\n"+a.warn())
+# b=S()
+# print(b.look())
+# print(b.plus(55))
+# sum = lambda a,b:a+b
+# list = [lambda a,b:a+b, lambda a,b:a-b]
+# print(list[0](3,4))
+# import random as r
+# import time
+# class hollzzack:
+#     def __init__(self):#base money,충전
+#         base_money=int(input("충전할 금액을 입력하시오\n"))
+#         self.money=base_money
+#     def game(self):#3판2승, 대기시간 5초
+#         bat=int(input("배팅 머니를 입력하시오\n"))
+#         if self.money < bat:
+#             print("잔액이 부족합니다\n")
+#             k=input("충전하시겠습니까? yes/no\n")
+#             if k=="yes":
+#                 re_money=int(input("충전금액을 입력하세요\n"))
+#                 self.money=self.money+re_money
+#             else:
+#                 print("게임을 종료합니다.\n")
+#                 return
+#         self.money=self.money-bat
+#         o=0
+#
+#         b=["홀","짝"]
+#         for i in range(1,4):
+#             a=input("%d번째 게임, '홀','짝'을 입력하시오\n"%i)
+#             if r.choice(b)==a:
+#                 o=o+1
+#                 print("맞췄습니다.%d/3\n"%o)
+#             else:
+#                 print("틀렸습니다.%d/3\n"%o)
+#             #time.sleep(5)
+#         if o >=2:
+#             self.money=self.money+bat*2
+#         re=input("현재 잔액은 %d원입니다. 다시하시겠습니까?, yes/no\n"%self.money)
+#         if re=="yes":
+#             self.game()
+#         else:
+#             return
+#     def balance(self):
+#         return self.money
+# a=hollzzack()
+# a.game()
+#poker
+import random as r
+import re
+
+class poker:
+    def __init__(self):#충전
+        self.money=0
+        charge=int(input("충전할 금액을 쓰시오\n"))
+        self.money=charge+self.money
+        
+    def set_card(self):
+        a = []
+        self.transcard=[]
+        for i in range(0, 52):
+            a.append(i)
+        for j in range(0,52):
+            if a[j]>=1 and a[j]<=13:
+                if a[j]==1:
+                    self.transcard.append("spade A")
+                elif a[j]==11:
+                    self.transcard.append("spade J")
+                elif a[j]==12:
+                    self.transcard.append("spade Q")
+                elif a[j]==13:
+                    self.transcard.append("spade K")
+                else:
+                    self.transcard.append("spade %d"%j)
+            elif a[j]>=14 and a[j]<=26:
+                if a[j] ==14:
+                    self.transcard.append("diamond A")
+                elif a[j]==24:
+                    self.transcard.append("diamond J")
+                elif a[j]==25:
+                    self.transcard.append("diamond Q")
+                elif a[j]==26:
+                    self.transcard.append("diamond K")
+                else:
+                    self.transcard.append("diamond %d"%(j-13))
+            elif a[j]>=27 and a[j]<=39:
+                if a[j]==27:
+                    self.transcard.append("heart A")
+                elif a[j]==37:
+                    self.transcard.append("heart J")
+                elif a[j]==38:
+                    self.transcard.append("heart Q")
+                elif a[j]==39:
+                    self.transcard.append("heart K")
+                else:
+                    self.transcard.append("heart %d"%(j-26))
+            elif a[j]>=40 and a[j]<=52:
+                if a[j]==40:
+                    self.transcard.append("clover A")
+                elif a[j]==50:
+                    self.transcard.append("clover J")
+                elif a[j]==51:
+                    self.transcard.append("clover Q")
+                elif a[j]==52:
+                    self.transcard.append("clover K")
+                else:
+                    self.transcard.append("clover %d"%(j-39))
+                    
+                    
+    def charge(self):#배팅
+        bat=int(input("배팅금액을 쓰시오\n"))
+        if bat>self.money:
+            e=input("잔액이 부족합니다. charge: 1, re batting: 2, Die: 3\n")
+            if e==1:
+                t=int(input("충전금액을 입력하시오:\n"))
+                self.money=t+self.money
+            elif e==2:
+                self.charge()
+            elif e==3:
+                return
+
+        else:
+            self.money=self.money-bat
+
+    def draw(self):  # player draw
+        self.playercard.append(self.transcard.pop())
+        print("현재카드: %s" % self.playercard)
+
+    def cpu_draw(self):  # cpu draw
+        self.cpu.append(self.transcard.pop())
+        if len(self.cpu) != 7:
+            print("cpu's card: %s" % self.cpu[2:])
+        else:
+            print("cpu's card: %s" % self.cpu[2:-1])
+            
+    def rank(self):
+        p_str=0
+        p_mount=0
+        p_flush=''
+        p_num=[]
+        c_num=[]
+        p_mark=[]
+        c_mark=[]
+        p_pair=[]
+        p_triple=[]
+        p_four=[]
+        p_two=0
+        p_full=0
+        c_pair=[]
+        c_triple=[]
+        c_four=[]
+        c_two=0
+        c_full=0
+        c_flush=''
+        c_str=0
+        c_mount=0
+        for i in range(0,7):#숫자, 문양나눔
+            p_num.append(re.findall("[0-9A-Z]+",self.playercard[i]))
+            c_num.append(re.findall("[0-9A-Z]+",self.cpu[i]))
+            p_mark.append(re.findall("[a-z]+",self.playercard[i]))
+            c_mark.append(re.findall("[a-z]+",self.cpu[i]))
+        for i in range(0,7): # 이중리스트를 바꿈
+            if c_num[i]==['A']:
+                c_num[i]=14
+            elif c_num[i]==['J']:
+                c_num[i]=11
+            elif c_num[i]==['Q']:
+                c_num[i]=12
+            elif c_num[i]==['K']:
+                c_num[i]=13
+            else:
+                for j in range(2,11):
+                    if c_num[i]==[str(j)]:
+                        c_num[i]=j
+
+        for i in 'clover','heart','spade','diamond':#플러시
+            if p_mark.count([i])>=5:
+                p_flush=i
+            if c_num.count([i])>=5:
+                c_flush=i
+        
+
+        if p_flush=='spade':
+            p_flush=4
+        elif p_flush=='diamond':
+            p_flush=3
+        elif p_flush=='heart':
+            p_flush=2
+        elif p_flush=='clover':
+            p_flush=1
+        elif c_flush=='spade':
+            c_flush=4
+        elif c_flush=='diamond':
+            c_flush=3
+        elif c_flush=='heart':
+            c_flush=2
+        elif c_flush=='clover':
+            c_flush=1
+
+
+
+
+        for i in range(0,7): #이중리스트를 바꿈
+            if p_num[i]==['A']:
+                p_num[i]=14
+            elif p_num[i]==['J']:
+                p_num[i]=11
+            elif p_num[i]==['Q']:
+                p_num[i]=12
+            elif p_num[i]==['K']:
+                p_num[i]=13
+            else:
+                for j in range(2,11):
+                    if p_num[i]==[str(j)]:
+                        p_num[i]=j
+
+        for i in range(2,15):#플레이어 페어
+            if p_num.count(i)==2:
+                p_pair.append(i)
+            elif p_num.count(i)==3:
+                p_triple.append(i)
+            elif p_num.count(i)==4:
+                p_four.append(i)
+
+
+        for i in range(2,15):#cpu페어
+            if c_num.count(i)==2:
+                c_pair.append(i)
+            elif c_num.count(i)==3:
+                c_triple.append(i)
+            elif c_num.count(i)==4:
+                c_four.append(i)
+
+
+        if len(p_pair)>=2:
+            p_two=max(p_pair)
+        if len(c_pair)>=2:
+            c_two=max(c_pair)
+        if c_triple == True and c_two == True:
+            c_full=max(c_triple)
+        if p_triple == True and p_two == True:
+            p_full=max(p_triple)
+
+
+        for i in range(0,7):
+            if p_num[i]==14:
+                p_num[i]=1
+            if c_num[i]==14:
+                c_num[i]=1
+
+        p_num.sort()
+        c_num.sort()
+
+        if p_num.count(1)==True and p_num.count(11) == True and p_num.count(12) == True and p_num.count(13) == True and p_num.count(10) == True:
+            p_mount=1
+        if c_num.count(1)==True and c_num.count(11) == True and c_num.count(12) == True and c_num.count(13) == True and c_num.count(10) == True:
+            c_mount=1
+        for i in range(0,7):
+            if i <=2:
+                if p_num[i] == p_num[i+1]-1 and p_num[i+1]==p_num[i+2]-1 and p_num[i+2] == p_num[i+3]-1 and p_num[i+3]==p_num[i+4]-1:
+                    p_str=p_num[i+4]
+            if i <=2:
+                if c_num[i] == c_num[i+1]-1 and c_num[i+1]==c_num[i+2]-1 and c_num[i+2] == c_num[i+3]-1 and c_num[i+3]==c_num[i+4]-1:
+                    c_str=c_num[i+4]
+
+
+
+        if p_four>c_four:
+            print("플레이어가 이겼습니다.")
+        elif c_four>p_four:
+            print("cpu가 이겼습니다.")
+        elif p_full > c_full:
+            print("플레이어가 이겼습니다.")
+        elif p_full < c_full:
+            print("cpu가 이겼습니다.")
+        elif p_flush > c_flush:
+            print("플레이어가 이겼습니다.")
+        elif p_flush < c_flush:
+            print("cpu가 이겼습니다.")
+        elif p_mount > c_mount:
+            print("플레이어 이김")
+        elif p_mount < c_mount:
+            print("cpu이김")
+        elif p_str > c_str:
+            print("플레이어가 이김")
+        elif p_str < c_str:
+            print("cpu가 이김")
+        elif p_triple>c_triple:
+            print("플레이어가 이겼습니다.")
+        elif p_triple<c_triple:
+            print("cpu가 이겼습니다.")
+        elif p_two>c_two:
+            print("플레이어가 이겼습니다.")
+        elif p_two<c_two:
+            print("cpu가 이겼습니다.")
+        elif p_pair>c_pair:
+            print("플레이어가 이겼습니다.")
+        elif p_pair<c_pair:
+            print("cpu가 이겼습니다.")
+
+
+
+
+
+
+    def game(self):#게임
+        self.cpu=[]
+        print("게임을 시작합니다.")
+        self.playercard=[]
+        for i in range(1,5):
+            r.shuffle(self.transcard)
+            self.playercard.append(self.transcard.pop())
+            self.cpu.append(self.transcard.pop())
+        print("뽑은 카드 입니다.%s 버릴 카드 1장을 고르시오."%self.playercard)
+        f=input("(버리고싶은 카드 1장을 쓰시오.)")
+        self.playercard.remove(f)
+        delete=r.choice(self.cpu)
+        self.cpu.remove(delete)
+        print("cpu's card: %s"%self.cpu[2:])
+        print("현재 카드는 %s 입니다."%self.playercard)#3장
+        self.charge()
+        self.draw()#4장
+        self.cpu_draw()
+        self.charge()
+        self.draw()#5장
+        self.cpu_draw()
+        self.charge()
+        self.draw()#6장
+        self.cpu_draw()
+        self.charge()
+        self.draw()#마지막장
+        self.cpu_draw()
+        self.charge()
+        print("게임이 끝났습니다. 양측 카드 공개 \nplayer: %s\ncpu: %s"%(self.playercard,self.cpu))
+        self.rank()
+
+
+k=poker()
+k.set_card()
+k.game()
